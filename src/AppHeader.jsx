@@ -1,6 +1,6 @@
 import "./AppHeader.scss";
 
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 
 import { AppContext } from "./AppContextProvider";
@@ -13,6 +13,33 @@ const REMOTE_DESKTOP_SESSION_HAS_ENDED =
 const AppHeader = () => {
   const { addIncident } = useContext(AppContext);
   const [showModal, setShowModal] = useState(false);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const keyDownHandler = useCallback((evt) => {
+    if (evt.shiftKey && evt.code === "Digit1") {
+      addIncident({
+        when: new Date(),
+        label: `${VM_DISCONNECTION} - ${TRYING_TO_RECONNECT}`,
+      });
+      return;
+    }
+    if (evt.shiftKey && evt.code === "Digit2") {
+      addIncident({
+        when: new Date(),
+        label: `${VM_DISCONNECTION} - ${REMOTE_DESKTOP_SESSION_HAS_ENDED}`,
+      });
+    }
+    if (evt.shiftKey && evt.code === "Digit3") {
+      setShowModal(true);
+    }
+  });
+
+  useEffect(() => {
+    window.addEventListener("keydown", keyDownHandler);
+    return () => {
+      window.removeEventListener("keydown", keyDownHandler);
+    };
+  }, [keyDownHandler]);
 
   const handleClose = () => setShowModal(false);
 
