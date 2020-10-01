@@ -1,27 +1,58 @@
-import './App.scss';
+import "./App.scss";
 
-import React from 'react';
-import logo from './logo.svg';
+import moment from "moment";
+import React, { useContext } from "react";
+import { Button } from "react-bootstrap";
 
-function App() {
+import { AppContext } from "./AppContextProvider";
+
+const VM_DISCONNECTION = "VM Disconnection";
+const TRYING_TO_RECONNECT = "Trying to reconnect";
+const REMOTE_DESKTOP_SESSION_HAS_ENDED =
+  "Your Remote Desktop Services session has ended";
+
+const App = () => {
+  const { incidents, addIncident } = useContext(AppContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="app-container">
+      <div className="app-header">
+        Report Incident
+        <Button
+          variant="info"
+          onClick={() => {
+            addIncident({
+              when: new Date(),
+              label: `${VM_DISCONNECTION} - ${TRYING_TO_RECONNECT}`,
+            });
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {TRYING_TO_RECONNECT}
+        </Button>
+        <Button
+          variant="info"
+          onClick={() => {
+            addIncident({
+              when: new Date(),
+              label: `${VM_DISCONNECTION} - ${REMOTE_DESKTOP_SESSION_HAS_ENDED}`,
+            });
+          }}
+        >
+          {REMOTE_DESKTOP_SESSION_HAS_ENDED}
+        </Button>
+      </div>
+      <div className="app-body">
+        <div>{moment().format("YYYY MM DD ")}</div>
+        {incidents.length === 0
+          ? "There is no registered incidents yet"
+          : incidents.map((incident, index) => (
+              <div key={index}>
+                {moment(incident.when).format("HH:mm")} - {incident.label}
+              </div>
+            ))}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
