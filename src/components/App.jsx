@@ -10,6 +10,10 @@ import { DISCONNECTION_TYPE } from "./constants";
 const App = () => {
   const { incidents, totals } = useContext(AppContext);
 
+  const tryingToReconnectTotal = totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT];
+  const remoteSessionEndedTotal =
+    totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED];
+
   return (
     <div className="app-container">
       <AppHeader />
@@ -28,24 +32,18 @@ const App = () => {
             <div>Totals:</div>
             <div>Incidents: {incidents.length}</div>
             <div>
-              {DISCONNECTION_TYPE.TRYING_TO_RECONNECT}:{" "}
-              {totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT]}. That means{" "}
-              {totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT]} minutes not
-              working.
+              {DISCONNECTION_TYPE.TRYING_TO_RECONNECT}: {tryingToReconnectTotal}
+              . That means {tryingToReconnectTotal} minutes not working.
             </div>
             <div>
               {DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED}:{" "}
-              {totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED]}.
-              That means{" "}
-              {totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED] * 2}{" "}
-              minutes not working.
+              {remoteSessionEndedTotal}. That means{" "}
+              {remoteSessionEndedTotal * 2} minutes not working.
             </div>
             <div>
               Total amount of time not working due to connectivity issues:{" "}
-              {totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT] +
-                totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED] *
-                  2}{" "}
-              minutes approximately.
+              {tryingToReconnectTotal + remoteSessionEndedTotal * 2} minutes
+              approximately.
             </div>
           </div>
         )}
