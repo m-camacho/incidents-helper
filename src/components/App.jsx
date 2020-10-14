@@ -29,11 +29,23 @@ const App = () => {
             <div>Incidents: {incidents.length}</div>
             <div>
               {DISCONNECTION_TYPE.TRYING_TO_RECONNECT}:{" "}
-              {totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT]}
+              {totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT]}. That means{" "}
+              {totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT]} minutes not
+              working.
             </div>
             <div>
               {DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED}:{" "}
-              {totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED]}
+              {totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED]}.
+              That means{" "}
+              {totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED] * 2}{" "}
+              minutes not working.
+            </div>
+            <div>
+              Total amount of time not working due to connectivity issues:{" "}
+              {totals[DISCONNECTION_TYPE.TRYING_TO_RECONNECT] +
+                totals[DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED] *
+                  2}{" "}
+              minutes approximately.
             </div>
           </div>
         )}
