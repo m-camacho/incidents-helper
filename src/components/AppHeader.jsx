@@ -4,11 +4,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 
 import { AppContext } from "./AppContextProvider";
-
-const VM_DISCONNECTION = "VM Disconnection";
-const TRYING_TO_RECONNECT = "Trying to reconnect";
-const REMOTE_DESKTOP_SESSION_HAS_ENDED =
-  "Your Remote Desktop Services session has ended";
+import { DISCONNECTION_TYPE, INCIDENT_TYPE } from "./constants";
 
 const AppHeader = () => {
   const { addIncident } = useContext(AppContext);
@@ -19,14 +15,16 @@ const AppHeader = () => {
     if (evt.shiftKey && evt.code === "Digit1") {
       addIncident({
         when: new Date(),
-        label: `${VM_DISCONNECTION} - ${TRYING_TO_RECONNECT}`,
+        type: INCIDENT_TYPE.VM_DISCONNECTION,
+        label: DISCONNECTION_TYPE.TRYING_TO_RECONNECT,
       });
       return;
     }
     if (evt.shiftKey && evt.code === "Digit2") {
       addIncident({
         when: new Date(),
-        label: `${VM_DISCONNECTION} - ${REMOTE_DESKTOP_SESSION_HAS_ENDED}`,
+        type: INCIDENT_TYPE.VM_DISCONNECTION,
+        label: DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED,
       });
     }
     if (evt.shiftKey && evt.code === "Digit3") {
@@ -51,22 +49,24 @@ const AppHeader = () => {
         onClick={() => {
           addIncident({
             when: new Date(),
-            label: `${VM_DISCONNECTION} - ${TRYING_TO_RECONNECT}`,
+            type: INCIDENT_TYPE.VM_DISCONNECTION,
+            label: DISCONNECTION_TYPE.TRYING_TO_RECONNECT,
           });
         }}
       >
-        {TRYING_TO_RECONNECT}
+        {DISCONNECTION_TYPE.TRYING_TO_RECONNECT}
       </Button>
       <Button
         variant="info"
         onClick={() => {
           addIncident({
             when: new Date(),
-            label: `${VM_DISCONNECTION} - ${REMOTE_DESKTOP_SESSION_HAS_ENDED}`,
+            type: INCIDENT_TYPE.VM_DISCONNECTION,
+            label: DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED,
           });
         }}
       >
-        {REMOTE_DESKTOP_SESSION_HAS_ENDED}
+        {DISCONNECTION_TYPE.REMOTE_DESKTOP_SESSION_HAS_ENDED}
       </Button>
       <Button
         variant="info"
